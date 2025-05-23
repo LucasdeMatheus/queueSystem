@@ -13,16 +13,16 @@ src/
             ├── controller/
             │   └── QueueController.java
             │
-            ├── main/
-            │   └── QueueSystemApplication.java
-            │
-            ├── queue/
-            │   ├── Queue.java
-            │   ├── QueueRepository.java
-            │   ├── QueueService.java
-            │   └── QueueType.java
-            │       └── dto/
-            │           └── QueueDTO.java
+            ├── domain
+            │   ├── queue/
+            │   │   └── Queue.java
+            │   │   ├── QueueRepository.java
+            │   │   ├── STATUS.java
+            │   │   └── TYPE.java
+            │   │       └── dto/
+            │   │           └── QueueDTO.java
+            │   ├── service/
+            │       └── QueueService.java
 
 ```
 ## 1 🗂️ Entidades do Sistemas
@@ -57,8 +57,12 @@ src/
 ### 2.2 Chamar próxima senha
 - **Endpoint**: `POST /queue/call`
 - **Irá chamar a ultima senha e remover-la da fila**
+  
+### 2.3 cancelar senha
+- **Endpoint**: `POST /queue/cancel/:id`
+- **Irá cancelar uma senha recebida no endpoint**
 
-### 2.3 Listar senhas em fila
+### 2.4 Listar senhas em fila
 - **Endpoint**: `GET /queue/list`
 - **Retorno**:
  ```json
@@ -70,7 +74,7 @@ src/
     ]
 }
 ```
-### 2.4 Resetar senhas do dia
+### 2.5 Resetar senhas do dia
 - **Endpoint**: `POST /queue/reset`
 
 
