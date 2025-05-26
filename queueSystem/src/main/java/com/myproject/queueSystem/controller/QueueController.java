@@ -18,10 +18,8 @@ public class QueueController {
 
 
     @PostMapping
-    public ResponseEntity<String> generatedQueue(@RequestBody QueueDTO data) {
-        Queue queue = queueService.generatedQueue(data.type());
-
-        return ResponseEntity.ok(queue.getCode());
+    public ResponseEntity<Queue> generatedQueue(@RequestBody QueueDTO data) {
+        return ResponseEntity.ok(queueService.generatedQueue(data.type()));
     }
 
     @PostMapping("/call")

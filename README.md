@@ -50,14 +50,17 @@ src/
 - **Retorno**:
  ```json
 {
-"queue": "N001" // NORMAL
-"queue": "P001" // PREFERENCIAL
- }
+  "id": 1,
+  "code": "N001",
+  "type": "NORMAL",
+  "status": "PENDING",
+  "timestamp": "2025-05-26T20:33:41.2358325"
+}
 ```
 ### 2.2 Chamar próxima senha
 - **Endpoint**: `POST /queue/call`
 - **Irá chamar a ultima senha e remover-la da fila**
-  
+
 ### 2.3 cancelar senha
 - **Endpoint**: `POST /queue/cancel/:id`
 - **Irá cancelar uma senha recebida no endpoint**
@@ -67,11 +70,11 @@ src/
 - **Retorno**:
  ```json
 {
-"queues":[
+  "queues":[
     "queue": "A001",
     "queue": "A002"
     ...
-    ]
+  ]
 }
 ```
 ### 2.5 Resetar senhas do dia

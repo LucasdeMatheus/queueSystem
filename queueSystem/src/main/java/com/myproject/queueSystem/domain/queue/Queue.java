@@ -1,14 +1,19 @@
 package com.myproject.queueSystem.domain.queue;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 public class Queue {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
+    @Enumerated(EnumType.STRING)
     private TYPE type;
+
+    @Enumerated(EnumType.STRING)
     private STATUS status;
     private LocalDateTime timestamp;
 
