@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QueueService {
@@ -44,6 +45,24 @@ public class QueueService {
 
 
     public Queue getNextQueue() {
+
+        // primeiro preferenciais
+        Optional<Queue> preferencial = queueRepository.findLastPreferencialQueue();
+        if (preferencial.isPresent()){
+            preferencial.get().setStatus(STATUS.CALLED);
+            queueRepository.save(preferencial.get());
+            return preferencial.get();
+        }
+
+        // caso não tenha preferenciais
+        Optional<Queue> normal = queueRepository.findLastNormalQueue();
+        if (normal.isPresent()){
+            normal.get().setStatus(STATUS.CALLED);
+            queueRepository.save(normal.get());
+            return normal.get();
+        }
+
+        // caso não tenha proxima senha
         return null;
     }
 

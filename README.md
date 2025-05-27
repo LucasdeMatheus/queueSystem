@@ -60,7 +60,16 @@ src/
 ### 2.2 Chamar próxima senha
 - **Endpoint**: `POST /queue/call`
 - **Irá chamar a ultima senha e remover-la da fila**
-
+- **Retorno**:
+ ```json
+{
+  "id": 2,
+  "code": "N002",
+  "type": "NORMAL",
+  "status": "CALLED",
+  "timestamp": "2025-05-26T20:33:41.235833"
+}
+```
 ### 2.3 cancelar senha
 - **Endpoint**: `POST /queue/cancel/:id`
 - **Irá cancelar uma senha recebida no endpoint**
