@@ -71,25 +71,33 @@ src/
 }
 ```
 ### 2.3 cancelar senha
-- **Endpoint**: `POST /queue/cancel/:id`
+- **Endpoint**: `POST /queue/cancel/:code`
 - **Irá cancelar uma senha recebida no endpoint**
 
 ### 2.4 Listar senhas em fila
 - **Endpoint**: `GET /queue/list`
 - **Retorno**:
  ```json
-{
-  "queues":[
-    "queue": "A001",
-    "queue": "A002"
-    ...
-  ]
-}
+[
+  {
+    "id": 5,
+    "code": "P001",
+    "type": "PREFERENCIAL",
+    "status": "PENDING",
+    "timestamp": "2025-05-28T19:45:48.166887"
+  },
+  {
+    "id": 6,
+    "code": "P002",
+    "type": "PREFERENCIAL",
+    "status": "PENDING",
+    "timestamp": "2025-05-28T19:45:48.987983"
+  }
+]
 ```
 ### 2.5 Resetar senhas do dia
 - **Endpoint**: `POST /queue/reset`
-
-
+- **Irá limpar os códigos (code = null) de todas elas**
 
 ## 🛠️ Ferramentas
 - Intellij

@@ -1,6 +1,8 @@
 package com.myproject.queueSystem.controller;
 
 import com.myproject.queueSystem.domain.queue.Queue;
+import com.myproject.queueSystem.domain.queue.STATUS;
+import com.myproject.queueSystem.domain.queue.TYPE;
 import com.myproject.queueSystem.domain.queue.dto.QueueDTO;
 import com.myproject.queueSystem.domain.service.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +31,24 @@ public class QueueController {
         return ResponseEntity.ok(queue);
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<Boolean> cancelQueue() {
-        queueService.cancelQueue();
+    @DeleteMapping("/cancel/{code}")
+    public ResponseEntity<Boolean> cancelQueue(@PathVariable String code) {
+        if (queueService.cancelQueue(code)){
+            return ResponseEntity.ok(true);
+        }
 
-        return ResponseEntity.ok(true);
+        return (ResponseEntity<Boolean>) ResponseEntity.notFound();
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Queue>> tolistQueues() {
-        List<Queue> queues = queueService.getQueuelist();
+    public ResponseEntity<List<Queue>> tolistQueues(
+            @RequestParam(required = false) STATUS status) {
+        List<Queue> queues = queueService.getQueuelist(status);
 
         return ResponseEntity.ok(queues);
     }
 
-    @PostMapping("/reset")
+    @PutMapping("/reset")
     public ResponseEntity<Boolean> toresetQueues() {
         queueService.resetQueues();
 

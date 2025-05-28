@@ -66,14 +66,18 @@ public class QueueService {
         return null;
     }
 
-    public void cancelQueue() {
+    public boolean cancelQueue(String code) {
+        queueRepository.cancelQueueByCode(code);
+        return true;
     }
 
-    public List<Queue> getQueuelist() {
-        return null;
+    public List<Queue> getQueuelist(STATUS status) {
+
+        return queueRepository.findAllByTypeAndStatus(status);
     }
 
     public void resetQueues() {
+        queueRepository.clearAllCodes();
         return;
     }
 
