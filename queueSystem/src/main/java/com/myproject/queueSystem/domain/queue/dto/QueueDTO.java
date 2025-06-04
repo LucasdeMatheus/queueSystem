@@ -4,7 +4,6 @@ import com.myproject.queueSystem.domain.queue.TYPE;
 import jakarta.validation.constraints.NotBlank;
 
 public record QueueDTO(
-        @NotBlank
         TYPE type
 ){
 }

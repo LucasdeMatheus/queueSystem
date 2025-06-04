@@ -26,7 +26,7 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
     @Query("UPDATE Queue q SET q.status = 'CANCELLED' WHERE q.code = :code ")
     void cancelQueueByCode(String code);
 
-    @Query("SELECT q FROM Queue q WHERE q.status = :status")
+    @Query("SELECT q FROM Queue q WHERE q.status = :status And q.code IS NOT NULL")
     List<Queue> findAllByTypeAndStatus(STATUS status);
 
     @Modifying
@@ -34,4 +34,9 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
     @Query("UPDATE Queue q SET q.code = null")
     void clearAllCodes();
 
+    @Query("SELECT q.code FROM Queue q ORDER BY q.id DESC LIMIT 1")
+    String findLastCode();
+
+    @Query("SELECT q FROM Queue q WHERE q.status = 'PENDING' ORDER BY q.timestamp ASC LIMIT 1")
+    Optional<Queue> findLastQueue();
 }

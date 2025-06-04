@@ -5,6 +5,7 @@ import com.myproject.queueSystem.domain.queue.STATUS;
 import com.myproject.queueSystem.domain.queue.TYPE;
 import com.myproject.queueSystem.domain.queue.dto.QueueDTO;
 import com.myproject.queueSystem.domain.service.QueueService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("queue/")
+@RequestMapping("queue")
+@SecurityRequirement(name = "bearer-key")
 public class QueueController {
 
     @Autowired

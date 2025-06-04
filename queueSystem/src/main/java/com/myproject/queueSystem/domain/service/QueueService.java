@@ -20,12 +20,11 @@ public class QueueService {
     public Queue generatedQueue(TYPE type) {
         // Instância
         Queue queue = new Queue();
-        queue.setType(type);
         queue.setStatus(STATUS.PENDING);
         queue.setTimestamp(LocalDateTime.now());
 
         // Busca a ultima senha
-        String lastCode = queueRepository.findLastCodeByType(type);
+        String lastCode = type != null ? queueRepository.findLastCodeByType(type) : queueRepository.findLastCode();
 
         // proxima senha
         int nextNumber = 1;
@@ -35,10 +34,16 @@ public class QueueService {
         }
 
         // Gera código com prefixo e número formatado com 3 dígitos
-        String prefix = type == TYPE.NORMAL ? "N" : "P";
-        String code = prefix + String.format("%03d", nextNumber);
+        if(type != null){
+            queue.setType(type);
+            String prefix = type == TYPE.NORMAL ? "N" : "P";
+            String code = prefix + String.format("%03d", nextNumber);
+            queue.setCode(code);
+        }else{
+            String code =  String.format("%04d", nextNumber);
+            queue.setCode(code);
+        }
 
-        queue.setCode(code);
         queueRepository.save(queue);
         return queue;
     }
@@ -62,6 +67,12 @@ public class QueueService {
             return normal.get();
         }
 
+        Optional<Queue> lastQueue = queueRepository.findLastQueue();
+        if (lastQueue.isPresent()){
+            lastQueue.get().setStatus(STATUS.CALLED);
+            queueRepository.save(lastQueue.get());
+            return lastQueue.get();
+        }
         // caso não tenha proxima senha
         return null;
     }
