@@ -1,5 +1,6 @@
 package com.myproject.queueSystem.domain.user;
 
+import com.myproject.queueSystem.License.License;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +20,17 @@ public class User implements UserDetails {
     private long id;
     private String login;
     private String password;
+    private LocalDateTime validUntil;
+
+
+
+    public LocalDateTime getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(LocalDateTime validUntil) {
+        this.validUntil = validUntil;
+    }
 
 
 

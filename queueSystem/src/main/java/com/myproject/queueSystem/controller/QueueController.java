@@ -1,8 +1,8 @@
 package com.myproject.queueSystem.controller;
 
+import com.myproject.queueSystem.License.LicenseService;
 import com.myproject.queueSystem.domain.queue.Queue;
 import com.myproject.queueSystem.domain.queue.STATUS;
-import com.myproject.queueSystem.domain.queue.TYPE;
 import com.myproject.queueSystem.domain.queue.dto.QueueDTO;
 import com.myproject.queueSystem.domain.service.QueueService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("queue")
+@RequestMapping("/queue")
 @SecurityRequirement(name = "bearer-key")
 public class QueueController {
 
@@ -21,10 +21,6 @@ public class QueueController {
     QueueService queueService;
 
 
-    @PostMapping
-    public ResponseEntity<Queue> generatedQueue(@RequestBody QueueDTO data) {
-        return ResponseEntity.ok(queueService.generatedQueue(data.type()));
-    }
 
     @PostMapping("/call")
     public ResponseEntity<Queue> callQueue() {
