@@ -1,4 +1,4 @@
-package com.myproject.queueSystem.config;
+package com.myproject.queueSystem.infra;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/login").permitAll()
+                    req.requestMatchers("/login", "/license/**").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     req.anyRequest().authenticated();
                 })

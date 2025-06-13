@@ -6,7 +6,9 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.myproject.queueSystem.domain.user.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -41,8 +43,8 @@ public class TokenService {
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
-        } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT inválido ou expirado!", exception);
+        }  catch (JWTVerificationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token JWT inválido ou expirado!");
         }
     }
 
