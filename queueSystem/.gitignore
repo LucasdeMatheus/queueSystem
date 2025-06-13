@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignorar arquivos de build
+out/
+*.jar
+
+# Ignorar configurações do IntelliJ
+.idea/
+*.iml
+
