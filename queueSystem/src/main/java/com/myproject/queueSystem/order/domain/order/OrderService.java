@@ -52,6 +52,7 @@ public class OrderService {
         order.setStatus(STATUS.CLOSED);
         orderRepository.save(order);
         queueService.generatedQueue(null);
+        calculateOrderTotal(id);
         return ResponseEntity.ok(true);
     }
 
