@@ -5,6 +5,7 @@ import com.myproject.queueSystem.order.domain.order.item.Item;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,8 @@ public class Order {
     private LocalDateTime closedAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
+
 
     public Long getId() {
         return id;

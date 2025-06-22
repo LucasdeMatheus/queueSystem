@@ -2,6 +2,9 @@ package com.myproject.queueSystem.order.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -11,14 +14,17 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+ 
+    @NotBlank
     private String name;
 
+    @NotBlank
     @Enumerated(EnumType.STRING)
     private ProductType type;
 
     private String description;
 
+    @NotNull
     private BigDecimal price;
 
     public Long getId() {

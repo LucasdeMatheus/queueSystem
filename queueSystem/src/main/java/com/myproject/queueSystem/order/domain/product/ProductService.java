@@ -14,10 +14,10 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    public ProductRepository productRepository;
 
     @Autowired
-    private ItemRepository itemRepository;
+    public ItemRepository itemRepository;
 
 
     public ResponseEntity<Product> createProduct(Product data) {

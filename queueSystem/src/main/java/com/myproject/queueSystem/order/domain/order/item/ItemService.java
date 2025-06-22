@@ -17,13 +17,13 @@ import java.util.List;
 @Service
 public class ItemService {
     @Autowired
-    private ItemRepository itemRepository;
+    public ItemRepository itemRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderRepository orderRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    public ProductRepository productRepository;
 
     public ResponseEntity<ItemDTO> addItem(Long orderId, ItemDTO data) {
         Order order = orderRepository.getReferenceById(orderId);
@@ -116,9 +116,10 @@ public class ItemService {
                 item.getNotes(),
                 item.getProduct().getId(),
                 item.getPrice(),
-                null,
+                data.extras(),  // <-- preencher com os IDs recebidos
                 item.getExtraList()
         );
+
         return ResponseEntity.ok(itemDTO);
     }
 

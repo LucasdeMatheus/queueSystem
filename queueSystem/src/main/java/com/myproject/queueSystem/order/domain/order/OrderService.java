@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderRepository orderRepository;
 
     @Autowired
-    private QueueService queueService;
+    public QueueService queueService;
 
     @Autowired
-    QueueRepository queueRepository;
+    public QueueRepository queueRepository;
 
     public ResponseEntity<Order> createOrder() {
         Order order = new Order();
@@ -79,12 +79,11 @@ public class OrderService {
             BigDecimal basePrice = item.getPrice() != null ? item.getPrice() : BigDecimal.ZERO;
             BigDecimal extrasPrice = BigDecimal.ZERO;
             for (Product product : item.getExtraList()) {
-                extrasPrice.add(product.getPrice());
+                extrasPrice = extrasPrice.add(product.getPrice()); // <- aqui estava o problema
             }
-
-
             total = total.add(basePrice).add(extrasPrice);
         }
+
 
         order.setTotal(total);
         orderRepository.save(order);

@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @Service
 public class AnalyticsService {
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderRepository orderRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    public ProductRepository productRepository;
 
     @Autowired
-    private ItemRepository itemRepository;
+    public ItemRepository itemRepository;
 
     public ResponseEntity<List<TopProductDTO>> getTopSellingProducts(String period) {
         LocalDateTime now = LocalDateTime.now();
