@@ -15,13 +15,13 @@ import java.util.List;
 public class LicenseService {
 
     @Autowired
-    private LicenseRepository licenseRepository;
+    public LicenseRepository licenseRepository;
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    public BCryptPasswordEncoder encoder;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
     public ResponseEntity<?> activateLicense(String code) {
         User user = userRepository.findTopByOrderByIdAsc()

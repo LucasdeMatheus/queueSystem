@@ -15,7 +15,7 @@ import java.util.Optional;
 public class QueueService {
 
     @Autowired
-    QueueRepository queueRepository;
+    public QueueRepository queueRepository;
 
     public Queue generatedQueue(TYPE type) {
         // Instância
