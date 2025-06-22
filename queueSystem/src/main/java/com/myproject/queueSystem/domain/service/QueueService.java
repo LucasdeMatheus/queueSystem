@@ -4,10 +4,12 @@ import com.myproject.queueSystem.domain.queue.Queue;
 import com.myproject.queueSystem.domain.queue.QueueRepository;
 import com.myproject.queueSystem.domain.queue.STATUS;
 import com.myproject.queueSystem.domain.queue.TYPE;
+import com.myproject.queueSystem.order.domain.order.QueueDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,10 +84,16 @@ public class QueueService {
         return true;
     }
 
-    public List<Queue> getQueuelist(STATUS status) {
+    public List<QueueDTO> getQueuelist(STATUS status) {
+        List<Queue> queues = queueRepository.findAllByTypeAndStatus(status);
 
-        return queueRepository.findAllByTypeAndStatus(status);
+        List<QueueDTO> queueDTOS = queues.stream()
+                .map(q -> new QueueDTO(q.getId(), q.getCode()))
+                .toList();
+
+        return queueDTOS;
     }
+
 
     public void resetQueues() {
         queueRepository.clearAllCodes();

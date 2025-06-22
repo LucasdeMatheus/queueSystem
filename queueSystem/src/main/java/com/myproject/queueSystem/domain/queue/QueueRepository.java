@@ -23,8 +23,9 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Queue q SET q.status = 'CANCELLED' WHERE q.code = :code ")
-    void cancelQueueByCode(String code);
+    @Query("UPDATE Queue q SET q.status = 'CANCELLED' WHERE q.code = :code")
+    void cancelQueueByCode(@Param("code") String code);
+
 
     @Query("SELECT q FROM Queue q WHERE q.status = :status And q.code IS NOT NULL")
     List<Queue> findAllByTypeAndStatus(STATUS status);
@@ -37,6 +38,6 @@ public interface QueueRepository extends JpaRepository<Queue, Long> {
     @Query("SELECT q.code FROM Queue q ORDER BY q.id DESC LIMIT 1")
     String findLastCode();
 
-    @Query("SELECT q FROM Queue q WHERE q.status = 'PENDING' ORDER BY q.timestamp ASC LIMIT 1")
+    @Query("SELECT q FROM Queue q WHERE q.status = 'PENDING' AND q.code IS NOT NULL ORDER BY q.timestamp ASC LIMIT 1")
     Optional<Queue> findLastQueue();
 }

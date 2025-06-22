@@ -33,12 +33,55 @@ public class ItemService {
         item.setOrder(order);
         item.setProduct(product);
 
-        // Quantidade: usa 1 como padrão se for nulo ou menor que 1
         int quantity = (data.quantity() != null && data.quantity() > 0) ? data.quantity() : 1;
         item.setQuantity(quantity);
 
-        // Começa com o preço do produto principal
         BigDecimal price = product.getPrice() != null ? product.getPrice() : BigDecimal.ZERO;
+
+        List<Product> extraProducts = new ArrayList<>();
+        if (data.extras() != null && !data.extras().isEmpty()) {
+            for (Long extraId : data.extras()) {
+                Product extra = productRepository.findById(extraId)
+                        .orElseThrow(() -> new RuntimeException("Extra product with id " + extraId + " not found"));
+                extraProducts.add(extra);
+                price = price.add(extra.getPrice() != null ? extra.getPrice() : BigDecimal.ZERO);
+            }
+            item.setExtraList(extraProducts);
+        } else {
+            item.setExtraList(null);
+        }
+
+        item.setPrice(price.multiply(BigDecimal.valueOf(quantity)));
+        item.setNotes(data.notes());
+
+        if (order.getTotal() == null) order.setTotal(BigDecimal.ZERO);
+        order.setTotal(order.getTotal().add(item.getPrice()));
+
+        order.getItems().add(item);
+        itemRepository.save(item);
+        orderRepository.save(order);
+
+        ItemDTO itemDTO = new ItemDTO(
+                item.getId(),
+                item.getProduct().getName(),
+                item.getQuantity(),
+                item.getNotes(),
+                item.getProduct().getId(),
+                item.getPrice(),
+                data.extras(), // IDs enviados
+                item.getExtraList() // lista completa
+        );
+
+        return ResponseEntity.ok(itemDTO);
+    }
+
+
+
+    public ResponseEntity<ItemDTO> updateItem(Long orderId, Long itemId, ItemDTO data) {
+        Item item = itemRepository.findByIdAndOrderId(itemId, orderId)
+                .orElseThrow(() -> new RuntimeException("Item not found or does not belong to this order"));
+
+        BigDecimal price = item.getProduct().getPrice() != null ? item.getProduct().getPrice() : BigDecimal.ZERO;
 
         List<Product> extraProducts = new ArrayList<>();
         if (data.extras() != null && !data.extras().isEmpty()) {
@@ -55,55 +98,6 @@ public class ItemService {
             item.setExtraList(null);
         }
 
-        // Multiplica o preço unitário pela quantidade
-        item.setPrice(price.multiply(BigDecimal.valueOf(quantity)));
-
-        // Notas opcionais
-        item.setNotes(data.notes());
-
-        // Atualiza total da ordem (opcional, mas útil se quiser manter a ordem sincronizada)
-        if (order.getTotal() == null) {
-            order.setTotal(BigDecimal.ZERO);
-        }
-        order.setTotal(order.getTotal().add(item.getPrice()));
-
-        order.getItems().add(item);
-        itemRepository.save(item); // importante salvar antes caso precise do ID
-        orderRepository.save(order);
-        List<Long> extraIds = null;
-        if (item.getExtraList() != null) {
-            extraIds = item.getExtraList().stream()
-                    .map(Product::getId)
-                    .toList();  // ou .collect(Collectors.toList())
-        }
-
-        ItemDTO itemDTO = new ItemDTO(item.getOrder().getId(),item.getQuantity(), item.getNotes(), item.getProduct().getId(), item.getExtraList(), null);
-        return ResponseEntity.ok(itemDTO);
-    }
-
-
-
-    public ResponseEntity<ItemDTO> updateItem(Long orderId, Long itemId, ItemDTO data) {
-        Item item = itemRepository.findByIdAndOrderId(itemId, orderId)
-                .orElseThrow(() -> new RuntimeException("Item not found or does not belong to this order"));
-
-        BigDecimal price = item.getProduct().getPrice() != null ? item.getProduct().getPrice() : BigDecimal.ZERO;
-
-        List<Product> extraProducts = item.getExtraList();
-        if (data.extras() != null && !data.extras().isEmpty()) {
-            for (Long extraId : data.extras()) {
-                Product extra = productRepository.findById(extraId)
-                        .orElseThrow(() -> new RuntimeException("Extra product with id " + extraId + " not found"));
-                extraProducts.add(extra);
-                if (extra.getPrice() != null) {
-                    price = price.add(extra.getPrice());
-                }
-            }
-        }else{
-            extraProducts = null;
-        }
-        item.setExtraList(extraProducts);
-
         item.setPrice(price.multiply(BigDecimal.valueOf(data.quantity() == null ? 1 : data.quantity())));
 
         if (data.quantity() != null) {
@@ -113,8 +107,18 @@ public class ItemService {
             item.setNotes(data.notes());
         }
 
-        itemRepository.save(item); // persiste a atualização
-        ItemDTO itemDTO = new ItemDTO(item.getOrder().getId(),item.getQuantity(), item.getNotes(), item.getProduct().getId(), item.getExtraList(), null);
+        itemRepository.save(item);
+
+        ItemDTO itemDTO = new ItemDTO(
+                item.getOrder().getId(),
+                item.getProduct().getName(),
+                item.getQuantity(),
+                item.getNotes(),
+                item.getProduct().getId(),
+                item.getPrice(),
+                null,
+                item.getExtraList()
+        );
         return ResponseEntity.ok(itemDTO);
     }
 
@@ -130,5 +134,6 @@ public class ItemService {
     }
 
 }
+
 
 }

@@ -1,5 +1,6 @@
 package com.myproject.queueSystem.order.domain.order;
 
+import com.myproject.queueSystem.domain.queue.Queue;
 import com.myproject.queueSystem.order.domain.order.item.Item;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -12,6 +13,8 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne(mappedBy = "order", optional = true)
+    private Queue queue;
 
     @Enumerated(EnumType.STRING)
     private STATUS status;  // e.g. OPEN, CLOSED
@@ -73,5 +76,12 @@ public class Order {
         this.status = status;
     }
 
+    public Queue getQueue() {
+        return queue;
+    }
+
+    public void setQueue(Queue queue) {
+        this.queue = queue;
+    }
 // getters and setters
 }

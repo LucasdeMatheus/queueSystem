@@ -1,14 +1,17 @@
 package com.myproject.queueSystem.order.domain.order;
 
+import com.myproject.queueSystem.domain.queue.Queue;
 import com.myproject.queueSystem.order.domain.order.item.ItemDTO;
-import com.myproject.queueSystem.order.domain.product.Product;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record OrderDTO(
         Long id,
-        String nameProduct,
-        Integer quantity,
-        List<Product> productsExtra
+        QueueDTO queueDTO,
+        BigDecimal total,
+        LocalDateTime openedAt,
+        List<ItemDTO> items
 ) {}
 

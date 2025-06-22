@@ -1,4 +1,4 @@
-package com.myproject.queueSystem.config;
+package com.myproject.queueSystem.infra;
 
 import java.util.List;
 

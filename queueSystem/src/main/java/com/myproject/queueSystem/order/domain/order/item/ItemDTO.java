@@ -6,11 +6,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record ItemDTO(
-        Long orderId,
+        Long id,
+        String name,
         Integer quantity,
         String notes,
         Long idProduct,
-        List<Product> productsExtra,
-        List<Long> extras
-) {
-}
+        BigDecimal price,
+        List<Long> extras, // IDs dos extras enviados do front
+        List<Product> productsExtra // Extras completos retornados do back
+) {}

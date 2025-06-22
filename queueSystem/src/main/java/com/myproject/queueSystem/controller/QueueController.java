@@ -3,8 +3,8 @@ package com.myproject.queueSystem.controller;
 import com.myproject.queueSystem.License.LicenseService;
 import com.myproject.queueSystem.domain.queue.Queue;
 import com.myproject.queueSystem.domain.queue.STATUS;
-import com.myproject.queueSystem.domain.queue.dto.QueueDTO;
 import com.myproject.queueSystem.domain.service.QueueService;
+import com.myproject.queueSystem.order.domain.order.QueueDTO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +39,9 @@ public class QueueController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Queue>> tolistQueues(
+    public ResponseEntity<List<QueueDTO>> tolistQueues(
             @RequestParam(required = false) STATUS status) {
-        List<Queue> queues = queueService.getQueuelist(status);
+        List<QueueDTO> queues = queueService.getQueuelist(status);
 
         return ResponseEntity.ok(queues);
     }

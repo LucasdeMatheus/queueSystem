@@ -1,5 +1,6 @@
 package com.myproject.queueSystem.domain.queue;
 
+import com.myproject.queueSystem.order.domain.order.Order;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,10 @@ public class Queue {
     @Enumerated(EnumType.STRING)
     private TYPE type;
 
+    @OneToOne(optional = true)
+    @JoinColumn(name = "order_id") // cria a coluna order_id em Queue
+    private Order order;
+
     @Enumerated(EnumType.STRING)
     private STATUS status;
     private LocalDateTime timestamp;
@@ -23,6 +28,14 @@ public class Queue {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public String getCode() {

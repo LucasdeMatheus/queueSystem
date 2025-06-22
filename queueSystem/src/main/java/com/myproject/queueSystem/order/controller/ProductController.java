@@ -1,5 +1,6 @@
 package com.myproject.queueSystem.order.controller;
 
+import com.myproject.queueSystem.order.domain.order.Order;
 import com.myproject.queueSystem.order.domain.product.Product;
 import com.myproject.queueSystem.order.domain.product.ProductService;
 import com.myproject.queueSystem.order.domain.product.ProductType;
@@ -15,7 +16,6 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product data) {
         return productService.createProduct(data);
